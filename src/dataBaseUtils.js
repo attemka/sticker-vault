@@ -16,7 +16,7 @@ export function stickerpackList() {
 
 export function addStickerpack(data) {
     //console.log(data);
-    stickerpack
+   return stickerpack
         .findOneAndUpdate(
             { name: data.name },
             { $inc: { sendCount: 1 } },
@@ -46,8 +46,9 @@ export function addStickerpack(data) {
                             user.save();
                         }
                     });
-                 newStickerpack.save();
-                 return true;
-            } else return false;
+                 return newStickerpack.save();
+            } else{
+                return 0;
+            }
         });
 }

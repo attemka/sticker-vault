@@ -2,18 +2,18 @@
   <library name="Generated files" type="javaScript">
     <properties>
       <sourceFilesUrls>
-        <item url="file://$PROJECT_DIR$/dist/dist/src/utils.js" />
         <item url="file://$PROJECT_DIR$/dist/src/models/stickerpack.js" />
-        <item url="file://$PROJECT_DIR$/dist/src/dataBaseUtils.js" />
         <item url="file://$PROJECT_DIR$/dist/src/server.js" />
+        <item url="file://$PROJECT_DIR$/dist/src/dataBaseUtils.js" />
         <item url="file://$PROJECT_DIR$/dist/src/models/users.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/dist/dist/src/utils.js" />
+      <root url="file://$PROJECT_DIR$/dist/dist/src/utils.js" />
       <root url="file://$PROJECT_DIR$/dist/src/models/stickerpack.js" />
-      <root url="file://$PROJECT_DIR$/dist/src/dataBaseUtils.js" />
       <root url="file://$PROJECT_DIR$/dist/src/server.js" />
+      <root url="file://$PROJECT_DIR$/dist/src/dataBaseUtils.js" />
       <root url="file://$PROJECT_DIR$/dist/src/models/users.js" />
     </CLASSES>
     <SOURCES />
