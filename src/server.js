@@ -13,7 +13,11 @@ setupConnection();
 
 const userIsAdmin = (user, chat) => {
   return bot.getChatAdministrators(chat.id).then(response => {
-    if (response) return response.some(el => el.user.id === user.id);
+    if (response) {
+      console.log(user.id);
+      console.log(response.some(el => el.user.id === user.id));
+      return response.some(el => el.user.id === user.id);
+    }
     else return false;
   });
 };
@@ -78,9 +82,9 @@ bot.onText(/\/showtop/, msg => {
 
 bot.on("text", msg => {
   const chatId = msg.chat.id;
-  if (!userIsAdmin(msg.from, msg.chat)) {
-    bot.deleteMessage(msg.chat.id, msg.message_id);
-  }
+  userIsAdmin(msg.from, msg.chat).then(response =>{
+    if (!response) bot.deleteMessage(chatId, msg.message_id);
+  });
 });
 
 bot.on("sticker", msg => {
