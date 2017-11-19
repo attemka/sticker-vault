@@ -52,3 +52,12 @@ export function addStickerpack(data) {
             }
         });
 }
+
+export function getTopStickerpacks() {
+  return stickerpack.find().sort({sendCount:-1}).limit(10);
+}
+
+export function getTopUsers() {
+  return users.find().sort({sendedPacks:-1}).limit(10);
+}
+
