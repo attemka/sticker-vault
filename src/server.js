@@ -7,6 +7,8 @@ const token = process.env.BOT_TOKEN;
 
 const bot = new TelegramBot(token, { polling: true });
 let topShowed = false;
+let queryInterval;
+let messageQuery = [];
 setupConnection();
 
 const userIsAdmin = (user, chat) => {
@@ -15,6 +17,15 @@ const userIsAdmin = (user, chat) => {
     else return false;
   });
 };
+
+function debounce(func, wait) {
+  let timeout;
+  return function(...args) {
+    const context = this;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(context, args), wait);
+  };
+}
 
 const displayTopStickerpacks = () => {
   return getTopStickerpacks().then(response => {
@@ -73,27 +84,35 @@ bot.on("text", msg => {
 });
 
 bot.on("sticker", msg => {
-  const chatId = msg.chat.id;
+  messageQuery.push(msg);
+  console.log(messageQuery.length);
+  if (messageQuery.length === 1) queryInterval = setInterval(handleQuery, 3000);
+});
 
+const handleQuery = () => {
+  const msg = messageQuery[0];
+  const chatId = msg.chat.id;
   addStickerpack({
     name: msg.sticker.set_name,
     author: msg.from.username
   }).then(res => {
     if (res) {
       bot
-        .sendMessage(chatId, "принято", { reply_to_message_id: msg.message_id })
+        .sendMessage(chatId, "принято", {reply_to_message_id: msg.message_id})
         .then(response => setTimeout(() => bot.deleteMessage(response.chat.id, response.message_id), 5000));
     } else
-      bot.sendMessage(chatId, "уже было", { reply_to_message_id: msg.message_id }).then(response => {
+      bot.sendMessage(chatId, "уже было", {reply_to_message_id: msg.message_id}).then(response => {
         setTimeout(() => {
           bot.deleteMessage(msg.chat.id, msg.message_id);
           bot.deleteMessage(response.chat.id, response.message_id);
         }, 5000);
       });
   });
-});
+  messageQuery = messageQuery.splice(1);
+  if (!messageQuery.length) clearInterval(queryInterval);
+};
 
 Schedule.scheduleJob("00 * * * *", () => {
-  console.log('top cleaned');
+  console.log("top cleaned");
   topShowed = false;
 });
